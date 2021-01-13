@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.borzdiy.lunchvote.model.Restaurant;
 import ru.borzdiy.lunchvote.service.RestaurantService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class AbstractRestaurantController extends AbstractController {
@@ -19,6 +20,11 @@ public class AbstractRestaurantController extends AbstractController {
     public Restaurant get(int id) {
         log.info("get with id={}", id);
         return restaurantService.get(id);
+    }
+
+    public Restaurant getWithMenu(int id, LocalDate localDate) {
+        log.info("get with menu id={}, date={}", id, localDate);
+        return restaurantService.getWithMenu(id, localDate);
     }
 
 }

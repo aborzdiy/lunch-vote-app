@@ -7,6 +7,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.borzdiy.lunchvote.model.Restaurant;
 
+import java.time.LocalDate;
+
 @Transactional(readOnly = true)
 public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Integer> {
 
@@ -15,4 +17,6 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
     @Query("DELETE FROM Restaurant r WHERE r.id=:id")
     int delete(@Param("id") int id);
 
+    @Query("SELECT r FROM Restaurant r JOIN FETCH r.menu m where r.id=:id and m.menuDate=:local_date")
+    Restaurant getWithMenu(@Param("id") int id, @Param("local_date") LocalDate localDate);
 }

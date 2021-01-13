@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 import ru.borzdiy.lunchvote.model.Restaurant;
 import ru.borzdiy.lunchvote.repository.RestaurantRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -28,6 +29,11 @@ public class DataJpaRestaurantRepository implements RestaurantRepository {
     @Override
     public Restaurant get(int id) {
         return restaurantRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Restaurant getWithMenu(int id, LocalDate localDate) {
+        return restaurantRepository.getWithMenu(id, localDate);
     }
 
     @Override
