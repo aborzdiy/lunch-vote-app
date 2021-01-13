@@ -1,10 +1,12 @@
 package ru.borzdiy.lunchvote.repository.datajpa;
 
+import org.springframework.stereotype.Repository;
 import ru.borzdiy.lunchvote.model.Restaurant;
 import ru.borzdiy.lunchvote.repository.RestaurantRepository;
 
 import java.util.List;
 
+@Repository
 public class DataJpaRestaurantRepository implements RestaurantRepository {
 
     private final CrudRestaurantRepository restaurantRepository;
