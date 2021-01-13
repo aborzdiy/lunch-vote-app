@@ -1,6 +1,8 @@
 package ru.borzdiy.lunchvote.util;
 
 import ru.borzdiy.lunchvote.model.HasId;
+import ru.borzdiy.lunchvote.util.exception.IllegalRequestDataException;
+import ru.borzdiy.lunchvote.util.exception.NotFoundException;
 
 public class ValidationUtil {
 
