@@ -34,4 +34,9 @@ public class DataJpaMenuRepository implements MenuRepository {
     public List<Menu> getAll() {
         return menuRepository.findAll();
     }
+
+    @Override
+    public Menu getWithRestaurant(int id) {
+        return menuRepository.getWithRestaurant(id);
+    }
 }
