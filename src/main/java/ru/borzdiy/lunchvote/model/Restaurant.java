@@ -11,7 +11,7 @@ public class Restaurant extends AbstractNamedEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @JsonManagedReference
-    List<Menu> menu;
+    private List<Menu> menu;
 
     public Restaurant() {
     }
@@ -22,6 +22,14 @@ public class Restaurant extends AbstractNamedEntity {
 
     public Restaurant(Integer id, String name) {
         super(id, name);
+    }
+
+    public List<Menu> getMenu() {
+        return menu;
+    }
+
+    public void setMenu(List<Menu> menu) {
+        this.menu = menu;
     }
 
     @Override

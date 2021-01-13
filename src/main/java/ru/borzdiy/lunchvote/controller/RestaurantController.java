@@ -29,19 +29,16 @@ public class RestaurantController extends AbstractRestaurantController {
     static final String USER_REST_URL_WITH_ID = "/rest/restaurants/{id}";
     static final String USER_REST_URL_WITH_ID_MENU = "/rest/restaurants/{id}/menu";
 
-    @Override
     @GetMapping({ADMIN_REST_URL, USER_REST_URL})
     public List<Restaurant> getAll() {
         return super.getAll();
     }
 
-    @Override
     @GetMapping({ADMIN_REST_URL_WITH_ID, USER_REST_URL_WITH_ID})
     public Restaurant get(@PathVariable int id) {
         return super.get(id);
     }
 
-    @Override
     @GetMapping({ADMIN_REST_URL_WITH_ID_MENU, USER_REST_URL_WITH_ID_MENU})
     public Restaurant getWithMenu(@PathVariable int id, @RequestParam(name = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate localDate) {
         return super.getWithMenu(id, localDate);
@@ -53,7 +50,7 @@ public class RestaurantController extends AbstractRestaurantController {
         checkNew(restaurant);
         Restaurant created = restaurantService.create(restaurant);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(ADMIN_REST_URL + "/{id}")
+                .path(ADMIN_REST_URL_WITH_ID)
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
