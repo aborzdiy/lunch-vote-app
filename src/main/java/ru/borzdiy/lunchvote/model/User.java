@@ -4,7 +4,6 @@ import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.util.CollectionUtils;
-import ru.borzdiy.lunchvote.model.base.AbstractNamedEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;

@@ -1,7 +1,5 @@
 package ru.borzdiy.lunchvote.model;
 
-import ru.borzdiy.lunchvote.model.base.AbstractNamedEntity;
-
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;

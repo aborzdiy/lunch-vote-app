@@ -1,4 +1,4 @@
-package ru.borzdiy.lunchvote.model.base;
+package ru.borzdiy.lunchvote.model;
 
 import org.hibernate.Hibernate;
 
@@ -7,7 +7,7 @@ import javax.persistence.*;
 @MappedSuperclass
 // http://stackoverflow.com/questions/594597/hibernate-annotations-which-is-better-field-or-property-access
 @Access(AccessType.FIELD)
-public abstract class AbstractEntity implements HasId {
+public abstract class AbstractBaseEntity implements HasId {
     public static final int START_SEQ = 100000;
 
     @Id
@@ -18,10 +18,10 @@ public abstract class AbstractEntity implements HasId {
 //  Proxy initialization when accessing its identifier managed now by JPA_PROXY_COMPLIANCE setting
     protected Integer id;
 
-    public AbstractEntity() {
+    public AbstractBaseEntity() {
     }
 
-    public AbstractEntity(Integer id) {
+    public AbstractBaseEntity(Integer id) {
         this.id = id;
     }
 
@@ -48,7 +48,7 @@ public abstract class AbstractEntity implements HasId {
         if (o == null || !getClass().equals(Hibernate.getClass(o))) {
             return false;
         }
-        AbstractEntity that = (AbstractEntity) o;
+        AbstractBaseEntity that = (AbstractBaseEntity) o;
         return id != null && id.equals(that.id);
     }
 

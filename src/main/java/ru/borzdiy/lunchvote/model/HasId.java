@@ -1,4 +1,4 @@
-package ru.borzdiy.lunchvote.model.base;
+package ru.borzdiy.lunchvote.model;
 
 import org.springframework.util.Assert;
 
