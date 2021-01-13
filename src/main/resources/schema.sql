@@ -46,7 +46,7 @@ CREATE TABLE menus
     id              INTEGER DEFAULT GLOBAL_SEQ.nextval PRIMARY KEY,
     restaurant_id   INTEGER NOT NULL,
     menu_date       DATE NOT NULL,
-    dish            VARCHAR(255) NOT NULL,
+    dish            VARCHAR NOT NULL,
     price           INTEGER DEFAULT 0,
     FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE
 );
