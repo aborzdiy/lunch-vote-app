@@ -1,4 +1,4 @@
-package ru.borzdiy.lunchvote.util;
+package ru.borzdiy.lunchvote.util.exception;
 
 public class NotFoundException extends RuntimeException {
     public NotFoundException(String message) {
