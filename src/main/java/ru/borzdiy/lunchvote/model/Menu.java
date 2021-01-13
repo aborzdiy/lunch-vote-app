@@ -9,11 +9,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Positive;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "menus", uniqueConstraints = @UniqueConstraint(columnNames = {"MENU_DATE", "DISH", "RESTAURANT_ID"}, name = "menu_unique_idx"))
-public class Menu extends AbstractBaseEntity{
+public class Menu extends AbstractBaseEntity {
 
     @Column(name = "MENU_DATE", nullable = false)
     LocalDate menuDate;
@@ -36,7 +35,7 @@ public class Menu extends AbstractBaseEntity{
     public Menu() {
     }
 
-    public Menu(LocalDate menuDate, @NotBlank String dish, @NotEmpty @Positive Integer price, Restaurant restaurant) {
+    public Menu(LocalDate menuDate, @NotBlank String dish, Integer price, Restaurant restaurant) {
         this.menuDate = menuDate;
         this.dish = dish;
         this.price = price;
