@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.borzdiy.lunchvote.TestUtil;
 import ru.borzdiy.lunchvote.model.Restaurant;
 import ru.borzdiy.lunchvote.service.RestaurantService;
@@ -173,7 +175,48 @@ class RestaurantControllerTest extends AbstractControllerTest {
                 .andExpect(status().isUnprocessableEntity());
     }
 
-//    @Test
-//    void update() {
-//    }
+    @Test
+    void update() throws Exception {
+        Restaurant updated = getUpdated();
+        updated.setId(null);
+        perform(MockMvcRequestBuilders.put(ADMIN_REST_URL + RESTAURANT_1_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(admin))
+                .content(mapToJson(updated)))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+
+        RESTAURANT_MATCHER.assertMatch(restaurantService.get(RESTAURANT_1_ID), getUpdated());
+    }
+
+    @Test
+    void updateInvalid() throws Exception {
+        Restaurant invalid = new Restaurant(RESTAURANT1);
+        invalid.setName("");
+        MvcResult mvcResult = perform(MockMvcRequestBuilders.put(ADMIN_REST_URL + RESTAURANT_1_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(admin))
+                .content(mapToJson(invalid)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity())
+                .andReturn();
+
+        String content = mvcResult.getResponse().getContentAsString();
+    }
+
+    @Test
+    @Transactional(propagation = Propagation.NEVER)
+    void updateDuplicate() throws Exception {
+        Restaurant updated = new Restaurant(RESTAURANT2);
+        updated.setName("KFC");
+        MvcResult mvcResult = perform(MockMvcRequestBuilders.put(ADMIN_REST_URL + RESTAURANT_2_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(admin))
+                .content(mapToJson(updated)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity())
+                .andReturn();
+
+        String content = mvcResult.getResponse().getContentAsString();
+    }
 }
