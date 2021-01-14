@@ -1,5 +1,5 @@
 package ru.borzdiy.lunchvote.model;
 
-public interface HasEmail extends HasId {
+public interface HasIdAndEmail extends HasId {
     String getEmail();
 }
