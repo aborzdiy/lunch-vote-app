@@ -13,9 +13,6 @@ public class MenuTo extends BaseTo {
     private Integer price;
     private Restaurant restaurant;
 
-    public MenuTo() {
-    }
-
     @ConstructorProperties({"id", "menuDate", "dish", "price", "restaurant"})
     public MenuTo(Integer id, LocalDate menuDate, String dish, Integer price, Restaurant restaurant) {
         super(id);

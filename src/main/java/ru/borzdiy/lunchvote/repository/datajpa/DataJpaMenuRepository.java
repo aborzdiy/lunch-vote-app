@@ -3,6 +3,7 @@ package ru.borzdiy.lunchvote.repository.datajpa;
 import org.springframework.stereotype.Repository;
 import ru.borzdiy.lunchvote.model.Menu;
 import ru.borzdiy.lunchvote.repository.MenuRepository;
+import ru.borzdiy.lunchvote.to.MenuTo;
 
 import java.util.List;
 
@@ -31,12 +32,12 @@ public class DataJpaMenuRepository implements MenuRepository {
     }
 
     @Override
-    public List<Menu> getAll() {
-        return menuRepository.findAll();
+    public Menu getWithRestaurant(int id) {
+        return menuRepository.getWithRestaurant(id);
     }
 
     @Override
-    public Menu getWithRestaurant(int id) {
-        return menuRepository.getWithRestaurant(id);
+    public List<Menu> getAll() {
+        return menuRepository.findAll();
     }
 }

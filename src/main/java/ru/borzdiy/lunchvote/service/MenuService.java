@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.borzdiy.lunchvote.model.Menu;
 import ru.borzdiy.lunchvote.repository.MenuRepository;
+import ru.borzdiy.lunchvote.to.MenuTo;
+import ru.borzdiy.lunchvote.util.MenuUtil;
 import ru.borzdiy.lunchvote.util.exception.UpdateRestrictionException;
 
 import java.util.List;
@@ -29,9 +31,15 @@ public class MenuService {
         return checkNotFoundWithId(menuRepository.get(id), id);
     }
 
+    public Menu getWithRestaurant(int id) {
+        return checkNotFoundWithId(menuRepository.get(id), id);
+    }
+
     @CacheEvict(value = "menus", allEntries = true)
-    public Menu create(Menu menu) {
-        Assert.notNull(menu, "menu must not be null");
+    public Menu create(MenuTo menuTo) {
+        Assert.notNull(menuTo, "menu must not be null");
+        Menu menu = new Menu();
+        MenuUtil.updateFromTo(menu, menuTo);
         return menuRepository.save(menu);
     }
 
@@ -42,13 +50,11 @@ public class MenuService {
     }
 
     @CacheEvict(value = "menus", allEntries = true)
-    public void update(Menu menu) {
-        Assert.notNull(menu, "menu must not be null");
+    public void update(MenuTo menuTo, int id) {
+        Assert.notNull(menuTo, "menu must not be null");
+        Menu menu = get(id);
+        MenuUtil.updateFromTo(menu, menuTo);
         menuRepository.save(menu);
-    }
-
-    public Menu getWithRestaurant(int id) {
-        return checkNotFoundWithId(menuRepository.getWithRestaurant(id), id);
     }
 
     protected void checkModificationAllowed(int id) {

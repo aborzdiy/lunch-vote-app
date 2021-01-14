@@ -35,7 +35,8 @@ public class Menu extends AbstractBaseEntity {
     public Menu() {
     }
 
-    public Menu(LocalDate menuDate, @NotBlank String dish, Integer price, Restaurant restaurant) {
+    public Menu(Integer id, LocalDate menuDate, String dish, Integer price, Restaurant restaurant) {
+        super(id);
         this.menuDate = menuDate;
         this.dish = dish;
         this.price = price;
