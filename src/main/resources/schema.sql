@@ -10,9 +10,10 @@ CREATE SEQUENCE GLOBAL_SEQ MINVALUE 100000;
 CREATE TABLE users
 (
     id               INTEGER DEFAULT GLOBAL_SEQ.nextval PRIMARY KEY,
-    name             VARCHAR            NOT NULL,
-    email            VARCHAR            NOT NULL,
-    password         VARCHAR            NOT NULL
+    name             VARCHAR                NOT NULL,
+    email            VARCHAR                NOT NULL,
+    password         VARCHAR                NOT NULL,
+    enabled          BOOLEAN DEFAULT TRUE   NOT NULL
 );
 CREATE UNIQUE INDEX users_unique_email_idx
     ON users (email);
