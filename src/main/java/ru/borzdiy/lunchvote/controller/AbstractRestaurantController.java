@@ -1,11 +1,16 @@
 package ru.borzdiy.lunchvote.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.validation.BindException;
 import org.springframework.validation.DataBinder;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.PathVariable;
+import ru.borzdiy.lunchvote.model.AbstractNamedEntity;
 import ru.borzdiy.lunchvote.model.Restaurant;
 import ru.borzdiy.lunchvote.service.RestaurantService;
+import ru.borzdiy.lunchvote.validators.UniqueMailValidator;
+import ru.borzdiy.lunchvote.validators.UniqueRestorauntNameValidator;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,6 +21,13 @@ public class AbstractRestaurantController extends AbstractController {
 
     @Autowired
     RestaurantService restaurantService;
+
+    @Autowired
+    private UniqueRestorauntNameValidator nameValidator;
+
+    @Autowired
+    @Qualifier("defaultValidator")
+    private Validator validator;
 
     protected List<Restaurant> getAll() {
         log.info("get all");
@@ -43,11 +55,11 @@ public class AbstractRestaurantController extends AbstractController {
         restaurantService.update(restaurant);
     }
 
-    protected void validateBeforeUpdate(Restaurant restaurant, int id) throws BindException {
+    protected void validateBeforeUpdate(AbstractNamedEntity restaurant, int id) throws BindException {
         assureIdConsistent(restaurant, id);
         DataBinder binder = new DataBinder(restaurant);
-//        binder.addValidators(emailValidator, validator);
-//        binder.validate(View.Web.class);
+        binder.addValidators(nameValidator, validator);
+        binder.validate();
         if (binder.getBindingResult().hasErrors()) {
             throw new BindException(binder.getBindingResult());
         }
