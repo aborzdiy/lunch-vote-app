@@ -32,6 +32,11 @@ public class DataJpaRestaurantRepository implements RestaurantRepository {
     }
 
     @Override
+    public Restaurant getByName(String name) {
+        return restaurantRepository.findByName(name);
+    }
+
+    @Override
     public Restaurant getWithMenu(int id, LocalDate localDate) {
         return restaurantRepository.getWithMenu(id, localDate);
     }

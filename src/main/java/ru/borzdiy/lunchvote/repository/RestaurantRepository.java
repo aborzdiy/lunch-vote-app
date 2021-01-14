@@ -16,6 +16,8 @@ public interface RestaurantRepository {
     // null if not found
     Restaurant get(int id);
 
+    Restaurant getByName(String name);
+
     Restaurant getWithMenu(int id, LocalDate localDate);
 
     List<Restaurant> getAll();
