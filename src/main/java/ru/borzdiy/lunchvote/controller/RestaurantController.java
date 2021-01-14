@@ -58,26 +58,13 @@ public class RestaurantController extends AbstractRestaurantController {
     @DeleteMapping(ADMIN_REST_URL_WITH_ID)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
-        log.info("delete {}", id);
-        restaurantService.delete(id);
+        super.delete(id);
     }
 
     @PutMapping(ADMIN_REST_URL_WITH_ID)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@RequestBody Restaurant restaurant, @PathVariable int id) throws BindException {
-        validateBeforeUpdate(restaurant, id);
-        log.info("update {} with id={}", restaurant, id);
-        restaurantService.update(restaurant);
-    }
-
-    protected void validateBeforeUpdate(Restaurant restaurant, int id) throws BindException {
-        assureIdConsistent(restaurant, id);
-        DataBinder binder = new DataBinder(restaurant);
-//        binder.addValidators(emailValidator, validator);
-//        binder.validate(View.Web.class);
-        if (binder.getBindingResult().hasErrors()) {
-            throw new BindException(binder.getBindingResult());
-        }
+        super.update(restaurant, id);
     }
 
 }
