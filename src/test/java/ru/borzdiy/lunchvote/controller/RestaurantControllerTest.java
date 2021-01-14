@@ -165,13 +165,13 @@ class RestaurantControllerTest extends AbstractControllerTest {
         assertThrows(NotFoundException.class, () -> restaurantService.get(RESTAURANT_1_ID));
     }
 
-//    @Test
-//    void deleteNotFound() throws Exception {
-//        perform(MockMvcRequestBuilders.delete(ADMIN_REST_URL + 100100)
-//                .with(userHttpBasic(admin)))
-//                .andDo(print())
-//                .andExpect(status().isUnprocessableEntity());
-//    }
+    @Test
+    void deleteNotFound() throws Exception {
+        perform(MockMvcRequestBuilders.delete(ADMIN_REST_URL + 100100)
+                .with(userHttpBasic(admin)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
 
 //    @Test
 //    void update() {
