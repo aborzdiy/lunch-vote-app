@@ -29,11 +29,6 @@ public class MenuController extends AbstractMenuController {
         return super.get(id);
     }
 
-    @GetMapping("/{id}/with-restaurant")
-    public Menu getWithRestaurant(@PathVariable("id") int id) {
-        return super.getWithRestaurant(id);
-    }
-
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Menu> createWithLocation(@Validated @RequestBody Menu menu) {
         Menu created = super.create(menu);

@@ -24,11 +24,6 @@ public abstract class AbstractMenuController extends AbstractController {
         return menuService.get(id);
     }
 
-    public Menu getWithRestaurant(int id) {
-        log.info("get with restaurant id={}", id);
-        return menuService.getWithRestaurant(id);
-    }
-
     public Menu create(Menu menu) {
         checkNew(menu);
         log.info("create {}", menu);
