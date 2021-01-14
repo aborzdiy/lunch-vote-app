@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.borzdiy.lunchvote.model.Menu;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
