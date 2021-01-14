@@ -19,16 +19,16 @@ public class UniqueRestorauntNameValidator implements org.springframework.valida
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return clazz.isAssignableFrom(AbstractNamedEntity.class);
+        return AbstractNamedEntity.class.isAssignableFrom(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
         AbstractNamedEntity entity = (AbstractNamedEntity) target;
         if (StringUtils.hasText(entity.getName())) {
-            Restaurant dbRestaurant = repository.getByName(entity.getName().toLowerCase());
+            Restaurant dbRestaurant = repository.getByName(entity.getName());
             if (dbRestaurant != null && !dbRestaurant.getId().equals(entity.getId())) {
-                errors.rejectValue("name", ExceptionInfoHandler.EXCEPTION_DUPLICATE_EMAIL);
+                errors.rejectValue("name", "unique_name", ExceptionInfoHandler.EXCEPTION_DUPLICATE_NAME);
             }
         }
     }
