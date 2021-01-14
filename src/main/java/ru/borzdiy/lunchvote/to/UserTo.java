@@ -2,14 +2,13 @@ package ru.borzdiy.lunchvote.to;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import ru.borzdiy.lunchvote.model.HasEmail;
+import ru.borzdiy.lunchvote.model.HasIdAndEmail;
 
 import java.io.Serializable;
 
 
-public class UserTo extends BaseTo implements HasEmail, Serializable {
+public class UserTo extends BaseTo implements HasIdAndEmail, Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotBlank
