@@ -28,10 +28,10 @@ public class Menu extends AbstractBaseEntity {
     @Column(name = "PRICE", nullable = false)
     private Integer price;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Restaurant.class)
     @JoinColumn(name = "RESTAURANT_ID", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonBackReference
+    @JsonBackReference("menu-restaurant")
     private Restaurant restaurant;
 
     public Menu() {

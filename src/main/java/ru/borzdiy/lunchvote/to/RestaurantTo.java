@@ -1,29 +1,20 @@
 package ru.borzdiy.lunchvote.to;
 
-import ru.borzdiy.lunchvote.model.Menu;
-
-import java.util.List;
 import java.util.Objects;
 
 public class RestaurantTo extends BaseTo {
     private String name;
-    private List<Menu> menu;
 
     public RestaurantTo() {
     }
 
-    public RestaurantTo(Integer id, String name, List<Menu> menu) {
+    public RestaurantTo(Integer id, String name) {
         super(id);
         this.name = name;
-        this.menu = menu;
     }
 
     public String getName() {
         return name;
-    }
-
-    public List<Menu> getMenu() {
-        return menu;
     }
 
     @Override

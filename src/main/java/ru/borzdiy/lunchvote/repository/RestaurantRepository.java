@@ -23,5 +23,4 @@ public interface RestaurantRepository {
     Restaurant getOne(int id);
 
     List<Restaurant> getAll();
-
 }

@@ -5,25 +5,30 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.validation.BindException;
 import org.springframework.validation.DataBinder;
 import org.springframework.validation.Validator;
-import org.springframework.web.bind.annotation.PathVariable;
 import ru.borzdiy.lunchvote.controller.AbstractBaseController;
-import ru.borzdiy.lunchvote.model.AbstractNamedEntity;
 import ru.borzdiy.lunchvote.model.Restaurant;
+import ru.borzdiy.lunchvote.service.MenuService;
 import ru.borzdiy.lunchvote.service.RestaurantService;
+import ru.borzdiy.lunchvote.to.MenuTo;
 import ru.borzdiy.lunchvote.to.RestaurantTo;
+import ru.borzdiy.lunchvote.util.MenuUtil;
 import ru.borzdiy.lunchvote.util.RestarauntUtil;
 import ru.borzdiy.lunchvote.validators.UniqueRestorauntNameValidator;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static ru.borzdiy.lunchvote.util.ValidationUtil.assureIdConsistent;
-import static ru.borzdiy.lunchvote.util.ValidationUtil.checkNew;
 
 public class AbstractRestaurantController extends AbstractBaseController {
 
     @Autowired
     RestaurantService restaurantService;
+
+    @Autowired
+    MenuService menuService;
 
     @Autowired
     private UniqueRestorauntNameValidator nameValidator;
@@ -32,9 +37,12 @@ public class AbstractRestaurantController extends AbstractBaseController {
     @Qualifier("defaultValidator")
     private Validator validator;
 
-    protected List<Restaurant> getAll() {
+    protected List<RestaurantTo> getAll() {
         log.info("get all");
-        return restaurantService.getAll();
+        return restaurantService.getAll()
+                .stream()
+                .map(RestarauntUtil::asTo)
+                .collect(Collectors.toList());
     }
 
     protected RestaurantTo get(int id) {
@@ -42,33 +50,15 @@ public class AbstractRestaurantController extends AbstractBaseController {
         return RestarauntUtil.asTo(restaurantService.get(id));
     }
 
-    protected RestaurantTo getWithMenu(int id, LocalDate localDate) {
-        log.info("get with menu id={}, date={}", id, localDate);
-        return RestarauntUtil.asTo(restaurantService.getWithMenu(id, localDate));
+    protected List<MenuTo> getRestaurantMenu(int id, LocalDate localDate) {
+        log.info("get restaurant menu id={}, date={}", id, localDate);
+        return menuService.getRestaurantMenu(id, Objects.requireNonNullElse(localDate, LocalDate.now()))
+                .stream()
+                .map(MenuUtil::asTo)
+                .collect(Collectors.toList());
     }
 
-    public Restaurant create(RestaurantTo restaurantTo) {
-        checkNew(restaurantTo);
-        log.info("create from TO {}", restaurantTo);
-        Restaurant restaurant = RestarauntUtil.createNewFromTo(restaurantTo);
-        return restaurantService.create(restaurant);
-    }
-
-    protected void delete(@PathVariable int id) {
-        log.info("delete {}", id);
-        restaurantService.delete(id);
-    }
-
-    protected void update(RestaurantTo restaurantTo, int id) throws BindException {
-        Restaurant restaurant = restaurantService.get(id);
-        RestarauntUtil.updateFromTo(restaurant, restaurantTo);
-
-        validateBeforeUpdate(restaurant, id);
-        log.info("update {} with id={}", restaurantTo, id);
-        restaurantService.update(restaurant);
-    }
-
-    protected void validateBeforeUpdate(AbstractNamedEntity restaurant, int id) throws BindException {
+    protected void validateBeforeUpdate(Restaurant restaurant, int id) throws BindException {
         assureIdConsistent(restaurant, id);
         DataBinder binder = new DataBinder(restaurant);
         binder.addValidators(nameValidator, validator);

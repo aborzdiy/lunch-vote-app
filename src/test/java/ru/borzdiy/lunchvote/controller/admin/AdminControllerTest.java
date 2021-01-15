@@ -13,6 +13,8 @@ import ru.borzdiy.lunchvote.model.Menu;
 import ru.borzdiy.lunchvote.model.Restaurant;
 import ru.borzdiy.lunchvote.service.MenuService;
 import ru.borzdiy.lunchvote.service.RestaurantService;
+import ru.borzdiy.lunchvote.to.MenuTo;
+import ru.borzdiy.lunchvote.to.VoteTo;
 import ru.borzdiy.lunchvote.util.exception.NotFoundException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -74,36 +76,6 @@ class AdminControllerTest extends AbstractControllerTest {
 
         String content = mvcResult.getResponse().getContentAsString();
         Restaurant restaurant = mapFromJson(content, Restaurant.class);
-        RESTAURANT_MATCHER.assertMatch(restaurant, RESTAURANT1);
-    }
-
-    @Test
-    void getRestaurantWithMenu() throws Exception {
-        MvcResult mvcResult = perform(
-                MockMvcRequestBuilders.get(RESTAURANTS + RESTAURANT_1_ID + "/menu").with(userHttpBasic(admin)))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andReturn();
-
-        String content = mvcResult.getResponse().getContentAsString();
-        Restaurant restaurant = mapFromJson(content, Restaurant.class);
-
-        RESTAURANT_MATCHER.assertMatch(restaurant, RESTAURANT1);
-    }
-
-    @Test
-    void getRestaurantWithMenu_Date() throws Exception {
-        MvcResult mvcResult = perform(
-                MockMvcRequestBuilders.get(RESTAURANTS + RESTAURANT_1_ID + "/menu?date=2020-01-04").with(userHttpBasic(admin)))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andReturn();
-
-        String content = mvcResult.getResponse().getContentAsString();
-        Restaurant restaurant = mapFromJson(content, Restaurant.class);
-
         RESTAURANT_MATCHER.assertMatch(restaurant, RESTAURANT1);
     }
 
@@ -196,6 +168,34 @@ class AdminControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void getRestaurantMenu() throws Exception {
+        MvcResult mvcResult = perform(
+                MockMvcRequestBuilders.get(RESTAURANTS + RESTAURANT_1_ID + "/menu").with(userHttpBasic(admin)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        String content = mvcResult.getResponse().getContentAsString();
+        MenuTo[] menuTos = mapFromJson(content, MenuTo[].class);
+        assertEquals(menuTos.length, 1);
+    }
+
+    @Test
+    void getRestaurantMenu_Date() throws Exception {
+        MvcResult mvcResult = perform(
+                MockMvcRequestBuilders.get(RESTAURANTS + RESTAURANT_1_ID + "/menu?date=2020-01-14").with(userHttpBasic(admin)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        String content = mvcResult.getResponse().getContentAsString();
+        MenuTo[] menuTos = mapFromJson(content, MenuTo[].class);
+        assertEquals(menuTos.length, 1);
+    }
+
+    @Test
     void createRestaurantMenu() throws Exception {
         Menu newMenu = getNewMenu();
         MvcResult mvcResult = perform(MockMvcRequestBuilders.post(RESTAURANTS + RESTAURANT_1_ID + "/menu").with(userHttpBasic(admin))
@@ -269,5 +269,20 @@ class AdminControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity())
                 .andReturn();
+    }
+
+    @Test
+    void getRestaurantVotes() throws Exception {
+        MvcResult mvcResult = perform(
+                MockMvcRequestBuilders.get(RESTAURANTS + RESTAURANT_1_ID + "/vote").with(userHttpBasic(admin)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        String content = mvcResult.getResponse().getContentAsString();
+        VoteTo[] vote = mapFromJson(content, VoteTo[].class);
+
+//        RESTAURANT_MATCHER.assertMatch(restaurant, RESTAURANT1);
     }
 }

@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS votes;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS menus;
@@ -26,14 +27,6 @@ CREATE TABLE user_roles
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
-CREATE TABLE dishes
-(
-    id              INTEGER DEFAULT GLOBAL_SEQ.nextval PRIMARY KEY ,
-    name            VARCHAR(255)            NOT NULL
-);
-create UNIQUE INDEX dishes_unique_name_idx
-    ON dishes (name);
-
 CREATE TABLE restaurants
 (
     id              INTEGER DEFAULT GLOBAL_SEQ.nextval PRIMARY KEY ,
@@ -53,3 +46,14 @@ CREATE TABLE menus
 );
 create UNIQUE INDEX menu_unique_idx
     ON menus (menu_date, restaurant_id, dish);
+
+CREATE TABLE votes
+(
+    id              INTEGER DEFAULT GLOBAL_SEQ.nextval PRIMARY KEY,
+    restaurant_id   INTEGER NOT NULL,
+    user_id         INTEGER NOT NULL,
+    vote_date       DATE NOT NULL default now(),
+    constraint user_votes_unique_idx unique (user_id, restaurant_id, vote_date),
+    foreign key (user_id) references users (id) on delete cascade,
+    foreign key (restaurant_id) references restaurants (id) on delete cascade
+)

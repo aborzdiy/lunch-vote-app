@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.borzdiy.lunchvote.model.Restaurant;
 import ru.borzdiy.lunchvote.repository.RestaurantRepository;
+import ru.borzdiy.lunchvote.to.RestaurantTo;
+import ru.borzdiy.lunchvote.util.RestarauntUtil;
 import ru.borzdiy.lunchvote.util.exception.UpdateRestrictionException;
 
 import static ru.borzdiy.lunchvote.model.AbstractBaseEntity.START_SEQ;
@@ -13,6 +15,7 @@ import static ru.borzdiy.lunchvote.util.ValidationUtil.checkNotFoundWithId;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class RestaurantService {
@@ -33,10 +36,6 @@ public class RestaurantService {
 
     public Restaurant getOne(int id) {
         return dataRepository.getOne(id);
-    }
-
-    public Restaurant getWithMenu(int id, LocalDate localDate) {
-        return checkNotFoundWithId(dataRepository.getWithMenu(id, Objects.requireNonNullElseGet(localDate, LocalDate::now)), id);
     }
 
     @CacheEvict(value = "restaurants", allEntries = true)
@@ -62,5 +61,4 @@ public class RestaurantService {
             throw new UpdateRestrictionException();
         }
     }
-
 }

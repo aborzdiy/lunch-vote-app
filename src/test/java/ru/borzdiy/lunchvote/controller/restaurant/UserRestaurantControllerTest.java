@@ -9,6 +9,7 @@ import ru.borzdiy.lunchvote.TestUtil;
 import ru.borzdiy.lunchvote.controller.AbstractControllerTest;
 import ru.borzdiy.lunchvote.model.Restaurant;
 import ru.borzdiy.lunchvote.service.RestaurantService;
+import ru.borzdiy.lunchvote.to.MenuTo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -68,7 +69,7 @@ class UserRestaurantControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void getWithMenu() throws Exception {
+    void getMenu_CurrentDate() throws Exception {
         MvcResult mvcResult = perform(
                 MockMvcRequestBuilders.get(REST_URL + RESTAURANT_1_ID + "/menu").with(userHttpBasic(user)))
                 .andExpect(status().isOk())
@@ -77,38 +78,21 @@ class UserRestaurantControllerTest extends AbstractControllerTest {
                 .andReturn();
 
         String content = mvcResult.getResponse().getContentAsString();
-        Restaurant restaurant = mapFromJson(content, Restaurant.class);
-
-        RESTAURANT_MATCHER.assertMatch(restaurant, RESTAURANT1);
+        MenuTo[] menuTos = mapFromJson(content, MenuTo[].class);
+        assertEquals(menuTos.length, 1);
     }
 
     @Test
-    void getWithMenu_CurrentDate() throws Exception {
+    void getMenu_FixedDate() throws Exception {
         MvcResult mvcResult = perform(
-                MockMvcRequestBuilders.get(REST_URL + RESTAURANT_1_ID + "/menu").with(userHttpBasic(user)))
+                MockMvcRequestBuilders.get(REST_URL + RESTAURANT_1_ID + "/menu?date=2020-01-14").with(userHttpBasic(user)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andReturn();
 
         String content = mvcResult.getResponse().getContentAsString();
-        Restaurant restaurant = mapFromJson(content, Restaurant.class);
-
-        RESTAURANT_MATCHER.assertMatch(restaurant, RESTAURANT1);
-    }
-
-    @Test
-    void getWithMenu_FixedDate() throws Exception {
-        MvcResult mvcResult = perform(
-                MockMvcRequestBuilders.get(REST_URL + RESTAURANT_1_ID + "/menu?date=2020-01-04").with(userHttpBasic(user)))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andReturn();
-
-        String content = mvcResult.getResponse().getContentAsString();
-        Restaurant restaurant = mapFromJson(content, Restaurant.class);
-
-        RESTAURANT_MATCHER.assertMatch(restaurant, RESTAURANT1);
+        MenuTo[] menuTos = mapFromJson(content, MenuTo[].class);
+        assertEquals(menuTos.length, 1);
     }
 }

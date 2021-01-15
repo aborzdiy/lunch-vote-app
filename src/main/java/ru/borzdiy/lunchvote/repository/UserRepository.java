@@ -20,4 +20,5 @@ public interface UserRepository {
 
     List<User> getAll();
 
+    User getOne(int userId);
 }

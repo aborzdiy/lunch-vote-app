@@ -13,10 +13,13 @@ import ru.borzdiy.lunchvote.model.Menu;
 import ru.borzdiy.lunchvote.model.Restaurant;
 import ru.borzdiy.lunchvote.to.MenuTo;
 import ru.borzdiy.lunchvote.to.RestaurantTo;
+import ru.borzdiy.lunchvote.to.VoteTo;
+import ru.borzdiy.lunchvote.util.RestarauntUtil;
 
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = AdminController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -26,17 +29,18 @@ public class AdminController extends AbstractAdminController {
     public static final String RESTAURANT_ID_PARAM_NAME = "rid";
     public static final String RESTAURANTS_WITH_ID = RESTAURANTS + "/{" + RESTAURANT_ID_PARAM_NAME + "}";
     public static final String RESTAURANTS_WITH_ID_MENU = RESTAURANTS_WITH_ID + "/menu";
+    public static final String RESTAURANTS_WITH_ID_VOTE = RESTAURANTS_WITH_ID + "/vote";
 
     // WORK WITH RESTAURANTS
 
     @GetMapping(RESTAURANTS)
-    public List<Restaurant> getAllRestaurants() {
+    public List<RestaurantTo> getRestaurants() {
         return super.getAllRestaurants();
     }
 
     @GetMapping(RESTAURANTS_WITH_ID)
     public RestaurantTo get(@PathVariable(RESTAURANT_ID_PARAM_NAME) int rid) {
-        return super.getRestarauntTo(rid);
+        return super.getRestaraunt(rid);
     }
 
     @PostMapping(value = RESTAURANTS, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -63,8 +67,8 @@ public class AdminController extends AbstractAdminController {
     // WORK WITH RESTAURANT MENU
 
     @GetMapping(RESTAURANTS_WITH_ID_MENU)
-    public RestaurantTo getRestaurantWithMenu(@PathVariable(RESTAURANT_ID_PARAM_NAME) int rid, @RequestParam(name = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate localDate) {
-        return super.getRestaurantWithMenu(rid, localDate);
+    public List<MenuTo> getRestaurantMenu(@PathVariable(RESTAURANT_ID_PARAM_NAME) int rid, @RequestParam(name = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate localDate) {
+        return super.getRestaurantMenu(rid, localDate);
     }
 
     @PostMapping(value = RESTAURANTS_WITH_ID_MENU, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -88,4 +92,10 @@ public class AdminController extends AbstractAdminController {
         super.updateMenu(menuTo, rId, mId);
     }
 
+    // WORK WITH VOTE
+
+    @GetMapping(RESTAURANTS_WITH_ID_VOTE)
+    public List<VoteTo> getRestaurantVotes(@PathVariable(RESTAURANT_ID_PARAM_NAME) int rid, @RequestParam(name = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate localDate) {
+        return super.getRestaurantVotes(rid, localDate);
+    }
 }

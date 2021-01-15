@@ -1,5 +1,6 @@
 package ru.borzdiy.lunchvote.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
@@ -12,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -42,6 +44,10 @@ public class User extends AbstractNamedEntity implements HasIdAndEmail {
     @ElementCollection(fetch = FetchType.EAGER)
     @BatchSize(size = 200)
     private Set<Role> roles;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @JsonManagedReference("vote-user")
+    private List<Vote> vote;
 
     public User() {
     }
