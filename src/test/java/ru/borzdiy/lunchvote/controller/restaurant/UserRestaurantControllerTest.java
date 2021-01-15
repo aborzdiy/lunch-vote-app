@@ -82,4 +82,33 @@ class UserRestaurantControllerTest extends AbstractControllerTest {
         RESTAURANT_MATCHER.assertMatch(restaurant, RESTAURANT1);
     }
 
+    @Test
+    void getWithMenu_CurrentDate() throws Exception {
+        MvcResult mvcResult = perform(
+                MockMvcRequestBuilders.get(REST_URL + RESTAURANT_1_ID + "/menu").with(userHttpBasic(user)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        String content = mvcResult.getResponse().getContentAsString();
+        Restaurant restaurant = mapFromJson(content, Restaurant.class);
+
+        RESTAURANT_MATCHER.assertMatch(restaurant, RESTAURANT1);
+    }
+
+    @Test
+    void getWithMenu_FixedDate() throws Exception {
+        MvcResult mvcResult = perform(
+                MockMvcRequestBuilders.get(REST_URL + RESTAURANT_1_ID + "/menu?date=2020-01-04").with(userHttpBasic(user)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        String content = mvcResult.getResponse().getContentAsString();
+        Restaurant restaurant = mapFromJson(content, Restaurant.class);
+
+        RESTAURANT_MATCHER.assertMatch(restaurant, RESTAURANT1);
+    }
 }
