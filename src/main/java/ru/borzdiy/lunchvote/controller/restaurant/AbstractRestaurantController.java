@@ -2,8 +2,6 @@ package ru.borzdiy.lunchvote.controller.restaurant;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.validation.BindException;
-import org.springframework.validation.DataBinder;
 import org.springframework.validation.Validator;
 import ru.borzdiy.lunchvote.controller.AbstractBaseController;
 import ru.borzdiy.lunchvote.model.Restaurant;
@@ -11,6 +9,7 @@ import ru.borzdiy.lunchvote.model.User;
 import ru.borzdiy.lunchvote.model.Vote;
 import ru.borzdiy.lunchvote.service.MenuService;
 import ru.borzdiy.lunchvote.service.RestaurantService;
+import ru.borzdiy.lunchvote.service.UserService;
 import ru.borzdiy.lunchvote.service.VoteService;
 import ru.borzdiy.lunchvote.to.MenuTo;
 import ru.borzdiy.lunchvote.to.RestaurantTo;
@@ -18,7 +17,6 @@ import ru.borzdiy.lunchvote.to.VoteTo;
 import ru.borzdiy.lunchvote.util.MenuUtil;
 import ru.borzdiy.lunchvote.util.RestarauntUtil;
 import ru.borzdiy.lunchvote.util.exception.IllegalRequestDataException;
-import ru.borzdiy.lunchvote.validators.UniqueRestorauntNameValidator;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,9 +25,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static ru.borzdiy.lunchvote.util.ValidationUtil.assureIdConsistent;
-import static ru.borzdiy.lunchvote.util.ValidationUtil.checkNew;
-
 public class AbstractRestaurantController extends AbstractBaseController {
 
     @Autowired
@@ -37,6 +32,9 @@ public class AbstractRestaurantController extends AbstractBaseController {
 
     @Autowired
     MenuService menuService;
+
+    @Autowired
+    UserService userService;
 
     @Autowired
     VoteService voteService;
@@ -66,11 +64,12 @@ public class AbstractRestaurantController extends AbstractBaseController {
                 .collect(Collectors.toList());
     }
 
-    protected Vote processVote(VoteTo voteTo, int restaurant_id, User user) {
+    protected Vote processVote(VoteTo voteTo, int restaurant_id, int user_id) {
         LocalDate vote_date = LocalDate.now();
         Restaurant restaurant = restaurantService.getOne(restaurant_id);
-        Vote current = voteService.getUserVoteOnDate(user.getId(), vote_date);
+        Vote current = voteService.getUserVoteOnDate(user_id, vote_date);
         if (current == null) {
+            User user = userService.getOne(user_id);
             current = new Vote(null, vote_date, user, restaurant);
             return voteService.create(current);
         }

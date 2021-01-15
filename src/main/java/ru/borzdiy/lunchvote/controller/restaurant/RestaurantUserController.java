@@ -8,6 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import ru.borzdiy.lunchvote.AuthorizedUser;
 import ru.borzdiy.lunchvote.model.User;
 import ru.borzdiy.lunchvote.model.Vote;
 import ru.borzdiy.lunchvote.to.MenuTo;
@@ -45,8 +46,8 @@ public class RestaurantUserController extends AbstractRestaurantController {
     }
 
     @PostMapping(value = REST_WITH_ID_VOTE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> createVoteWithLocation(@Validated @RequestBody VoteTo vote, @PathVariable(RESTAURANT_ID_PARAM_NAME) int rId, @AuthenticationPrincipal User user) {
-        Vote created = super.processVote(vote, rId, user);
+    public ResponseEntity<Vote> createVoteWithLocation(@Validated @RequestBody VoteTo vote, @PathVariable(RESTAURANT_ID_PARAM_NAME) int rId, @AuthenticationPrincipal AuthorizedUser user) {
+        Vote created = super.processVote(vote, rId, user.getId());
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_WITH_ID_VOTE + "/{vid}")
                 .buildAndExpand(rId, created.getId()).toUri();

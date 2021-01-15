@@ -26,10 +26,6 @@ class UserControllerTest extends AbstractControllerTest {
     private UserService userService;
 
     @Test
-    void getAll() {
-    }
-
-    @Test
     void get() throws Exception{
         MvcResult mvcResult = perform(MockMvcRequestBuilders.get(REST_URL + ADMIN_ID)
                 .with(userHttpBasic(admin)))

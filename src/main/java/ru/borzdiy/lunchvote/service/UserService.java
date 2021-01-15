@@ -58,6 +58,10 @@ public class UserService implements UserDetailsService {
         return repository.getAll();
     }
 
+    public User getOne(int user_id) {
+        return repository.getOne(user_id);
+    }
+
     @CacheEvict(value = "users", allEntries = true)
     public void update(User user) {
         Assert.notNull(user, "user must not be null");
