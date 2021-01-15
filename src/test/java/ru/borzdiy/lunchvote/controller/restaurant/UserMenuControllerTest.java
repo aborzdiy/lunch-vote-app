@@ -20,7 +20,7 @@ import static ru.borzdiy.lunchvote.TestUtil.userHttpBasic;
 import static ru.borzdiy.lunchvote.UserTestData.user;
 import static ru.borzdiy.lunchvote.UserTestData.wrong_user;
 
-class UserRestaurantControllerTest extends AbstractControllerTest {
+class UserMenuControllerTest extends AbstractControllerTest {
 
     private static final String REST_URL = RestaurantUserController.REST_URL + '/';
 
@@ -31,42 +31,30 @@ class UserRestaurantControllerTest extends AbstractControllerTest {
     TestUtil testUtil;
 
     @Test
-    void getAll() throws Exception {
+    void getMenu_CurrentDate() throws Exception {
         MvcResult mvcResult = perform(
-                MockMvcRequestBuilders.get(REST_URL).with(userHttpBasic(user)))
+                MockMvcRequestBuilders.get(REST_URL + RESTAURANT_1_ID + "/menu").with(userHttpBasic(user)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andReturn();
 
         String content = mvcResult.getResponse().getContentAsString();
-        Restaurant[] restaurants = mapFromJson(content, Restaurant[].class);
-        assertEquals(restaurants.length, 5);
+        MenuTo[] menuTos = mapFromJson(content, MenuTo[].class);
+        assertEquals(menuTos.length, 1);
     }
 
     @Test
-    void getAll_WrongAuth() throws Exception {
-        perform(
-                MockMvcRequestBuilders.get(REST_URL).with(userHttpBasic(wrong_user)))
-                .andExpect(status().isUnauthorized())
-                .andDo(print())
-                .andReturn();
-    }
-
-
-    @Test
-    void getRestaurant() throws Exception {
+    void getMenu_FixedDate() throws Exception {
         MvcResult mvcResult = perform(
-                MockMvcRequestBuilders.get(REST_URL + RESTAURANT_1_ID)
-                        .with(userHttpBasic(user)))
+                MockMvcRequestBuilders.get(REST_URL + RESTAURANT_1_ID + "/menu?date=2020-01-14").with(userHttpBasic(user)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andReturn();
 
         String content = mvcResult.getResponse().getContentAsString();
-        Restaurant restaurant = mapFromJson(content, Restaurant.class);
-        RESTAURANT_MATCHER.assertMatch(restaurant, RESTAURANT1);
+        MenuTo[] menuTos = mapFromJson(content, MenuTo[].class);
+        assertEquals(menuTos.length, 1);
     }
-
 }

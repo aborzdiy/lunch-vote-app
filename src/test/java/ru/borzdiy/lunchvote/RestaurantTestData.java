@@ -7,9 +7,11 @@ public class RestaurantTestData {
 
     public static final int RESTAURANT_1_ID = 100002;
     public static final int RESTAURANT_2_ID = 100003;
+    public static final int RESTAURANT_3_ID = 100006;
 
     public static final Restaurant RESTAURANT1 = new Restaurant(RESTAURANT_1_ID, "Гуси-лебеди", null,null);
     public static final Restaurant RESTAURANT2 = new Restaurant(RESTAURANT_2_ID, "Бургерная", null, null);
+    public static final Restaurant RESTAURANT3 = new Restaurant(RESTAURANT_3_ID, "Мафия", null, null);
 
     public static Restaurant getNew() {
         return new Restaurant(null, "Бургер кинг", null,null);

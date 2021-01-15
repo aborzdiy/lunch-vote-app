@@ -8,6 +8,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "restaurant_id", "vote_date"}, name = "user_votes_unique_idx")})
@@ -17,6 +18,11 @@ public class Vote extends AbstractBaseEntity {
     @Column(name = "vote_date")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     LocalDate vote_date = LocalDate.now();
+
+    @NotNull
+    @Column(name = "voted_at")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    LocalDateTime voted_at = LocalDateTime.now();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
@@ -66,6 +72,14 @@ public class Vote extends AbstractBaseEntity {
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
+    }
+
+    public LocalDateTime getVoted_at() {
+        return voted_at;
+    }
+
+    public void setVoted_at(LocalDateTime voted_at) {
+        this.voted_at = voted_at;
     }
 
     @Override

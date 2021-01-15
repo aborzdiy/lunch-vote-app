@@ -6,7 +6,7 @@ import ru.borzdiy.lunchvote.to.VoteTo;
 public class VoteUtil {
 
     public static VoteTo asTo(Vote vote) {
-        return new VoteTo(vote.getId(), vote.getVote_date(), vote.getUser(), vote.getRestaurant());
+        return new VoteTo(vote.getId(), vote.getVote_date(), vote.getUser(), vote.getRestaurant(), vote.getVoted_at());
     }
 
 }

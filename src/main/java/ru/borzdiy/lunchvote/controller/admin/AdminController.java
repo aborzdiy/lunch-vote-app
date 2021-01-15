@@ -11,15 +11,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.borzdiy.lunchvote.model.Menu;
 import ru.borzdiy.lunchvote.model.Restaurant;
+import ru.borzdiy.lunchvote.model.Vote;
 import ru.borzdiy.lunchvote.to.MenuTo;
 import ru.borzdiy.lunchvote.to.RestaurantTo;
 import ru.borzdiy.lunchvote.to.VoteTo;
-import ru.borzdiy.lunchvote.util.RestarauntUtil;
 
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = AdminController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -97,5 +96,20 @@ public class AdminController extends AbstractAdminController {
     @GetMapping(RESTAURANTS_WITH_ID_VOTE)
     public List<VoteTo> getRestaurantVotes(@PathVariable(RESTAURANT_ID_PARAM_NAME) int rid, @RequestParam(name = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate localDate) {
         return super.getRestaurantVotes(rid, localDate);
+    }
+
+    @PostMapping(RESTAURANTS_WITH_ID_VOTE)
+    public ResponseEntity<Vote> processVote(@RequestBody VoteTo voteTo, @PathVariable(RESTAURANT_ID_PARAM_NAME) int rId) {
+        Vote proceed = super.processVoteTo(voteTo, rId);
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(RESTAURANTS_WITH_ID_VOTE + "/{vid}")
+                .buildAndExpand(voteTo.getRestaurant_id(), proceed.getId()).toUri();
+        return ResponseEntity.created(uriOfNewResource).body(proceed);
+    }
+
+    @DeleteMapping(RESTAURANTS_WITH_ID_VOTE+"/{vid}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteVote(@PathVariable(RESTAURANT_ID_PARAM_NAME) int rId, @PathVariable("vid") int vId) {
+        super.deleteVote(rId, vId);
     }
 }

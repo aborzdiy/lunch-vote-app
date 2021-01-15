@@ -8,6 +8,8 @@ import ru.borzdiy.lunchvote.repository.VoteRepository;
 import java.time.LocalDate;
 import java.util.List;
 
+import static ru.borzdiy.lunchvote.util.ValidationUtil.checkNotFoundWithId;
+
 @Service
 public class VoteService {
 
@@ -31,7 +33,7 @@ public class VoteService {
     }
 
     public Vote get(int id) {
-        return voteRepository.get(id);
+        return checkNotFoundWithId(voteRepository.get(id), id);
     }
 
     public Vote getOne(int id) {
@@ -54,7 +56,7 @@ public class VoteService {
         return voteRepository.getUserVotesHistory(user_id);
     }
 
-    public void update(Vote vote, int id) {
+    public void update(Vote vote) {
         Assert.notNull(vote, "menu must not be null");
         voteRepository.save(vote);
     }

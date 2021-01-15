@@ -53,7 +53,10 @@ CREATE TABLE votes
     restaurant_id   INTEGER NOT NULL,
     user_id         INTEGER NOT NULL,
     vote_date       DATE NOT NULL default now(),
+    voted_at        DATETIME NOT NULL default now(),
     constraint user_votes_unique_idx unique (user_id, restaurant_id, vote_date),
     foreign key (user_id) references users (id) on delete cascade,
     foreign key (restaurant_id) references restaurants (id) on delete cascade
-)
+);
+create UNIQUE INDEX votes_unique_idx
+    ON votes (vote_date, restaurant_id, user_id);
