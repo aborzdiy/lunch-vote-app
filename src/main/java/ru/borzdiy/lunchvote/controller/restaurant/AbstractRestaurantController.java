@@ -6,7 +6,7 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.DataBinder;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.PathVariable;
-import ru.borzdiy.lunchvote.controller.AbstractController;
+import ru.borzdiy.lunchvote.controller.AbstractBaseController;
 import ru.borzdiy.lunchvote.model.AbstractNamedEntity;
 import ru.borzdiy.lunchvote.model.Restaurant;
 import ru.borzdiy.lunchvote.service.RestaurantService;
@@ -20,7 +20,7 @@ import java.util.List;
 import static ru.borzdiy.lunchvote.util.ValidationUtil.assureIdConsistent;
 import static ru.borzdiy.lunchvote.util.ValidationUtil.checkNew;
 
-public class AbstractRestaurantController extends AbstractController {
+public class AbstractRestaurantController extends AbstractBaseController {
 
     @Autowired
     RestaurantService restaurantService;
