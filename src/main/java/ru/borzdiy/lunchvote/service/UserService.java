@@ -97,8 +97,6 @@ public class UserService implements UserDetailsService {
     }
 
     protected void checkModificationAllowed(int id) {
-        if (id < AbstractBaseEntity.START_SEQ + 2) {
-            throw new UpdateRestrictionException();
-        }
+
     }
 }

@@ -1,4 +1,4 @@
-package ru.borzdiy.lunchvote.controller;
+package ru.borzdiy.lunchvote.controller.users;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

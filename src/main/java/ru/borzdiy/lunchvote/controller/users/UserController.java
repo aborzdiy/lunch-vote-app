@@ -1,4 +1,4 @@
-package ru.borzdiy.lunchvote.controller;
+package ru.borzdiy.lunchvote.controller.users;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
