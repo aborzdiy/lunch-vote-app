@@ -5,6 +5,7 @@ import ru.borzdiy.lunchvote.model.Menu;
 import ru.borzdiy.lunchvote.repository.MenuRepository;
 import ru.borzdiy.lunchvote.to.MenuTo;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -42,7 +43,7 @@ public class DataJpaMenuRepository implements MenuRepository {
     }
 
     @Override
-    public List<Menu> getRestaurantMenu(int restaurantId) {
-        return menuRepository.getRestaurantMenu(restaurantId);
+    public List<Menu> getRestaurantMenu(int restaurantId, LocalDate localDate) {
+        return menuRepository.getRestaurantMenu(restaurantId, localDate);
     }
 }

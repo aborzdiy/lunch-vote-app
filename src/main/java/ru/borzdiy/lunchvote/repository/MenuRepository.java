@@ -2,6 +2,7 @@ package ru.borzdiy.lunchvote.repository;
 
 import ru.borzdiy.lunchvote.model.Menu;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface MenuRepository {
@@ -20,6 +21,6 @@ public interface MenuRepository {
 
     List<Menu> getAll();
 
-    List<Menu> getRestaurantMenu(int restaurantId);
+    List<Menu> getRestaurantMenu(int restaurantId, LocalDate localDate);
 
 }

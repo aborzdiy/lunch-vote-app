@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.borzdiy.lunchvote.model.Menu;
 import ru.borzdiy.lunchvote.to.MenuTo;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Transactional(readOnly = true)
@@ -21,7 +22,7 @@ public interface CrudMenuRepository extends JpaRepository<Menu, Integer> {
     @Query("SELECT m FROM Menu m JOIN FETCH m.restaurant r WHERE m.id=:id")
     Menu getWithRestaurant(@Param("id") int id);
 
-    @Query("SELECT m FROM Menu m WHERE m.restaurant.id=:restaurantId")
-    List<Menu> getRestaurantMenu(@Param("restaurantId") int restaurantId);
+    @Query("SELECT m FROM Menu m WHERE m.restaurant.id=:restaurantId AND m.menuDate=:menu_date")
+    List<Menu> getRestaurantMenu(@Param("restaurantId") int restaurantId, @Param("menu_date") LocalDate localDate);
 
 }

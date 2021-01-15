@@ -7,6 +7,7 @@ import ru.borzdiy.lunchvote.model.Menu;
 import ru.borzdiy.lunchvote.repository.MenuRepository;
 import ru.borzdiy.lunchvote.util.exception.UpdateRestrictionException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static ru.borzdiy.lunchvote.model.AbstractBaseEntity.START_SEQ;
@@ -25,8 +26,8 @@ public class MenuService {
         return menuRepository.getAll();
     }
 
-    public List<Menu> getRestaurantMenu(int restaurantId) {
-        return menuRepository.getRestaurantMenu(restaurantId);
+    public List<Menu> getRestaurantMenu(int restaurantId, LocalDate localDate) {
+        return menuRepository.getRestaurantMenu(restaurantId, localDate);
     }
 
     public Menu get(int id) {
