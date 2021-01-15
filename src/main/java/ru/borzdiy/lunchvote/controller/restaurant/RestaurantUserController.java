@@ -5,6 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import ru.borzdiy.lunchvote.model.Restaurant;
+import ru.borzdiy.lunchvote.to.RestaurantTo;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,12 +23,12 @@ public class RestaurantUserController extends AbstractRestaurantController {
     }
 
     @GetMapping("/{id}")
-    public Restaurant get(@PathVariable int id) {
+    public RestaurantTo get(@PathVariable int id) {
         return super.get(id);
     }
 
     @GetMapping("/{id}/menu")
-    public Restaurant getWithMenu(@PathVariable int id, @RequestParam(name = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate localDate) {
+    public RestaurantTo getWithMenu(@PathVariable int id, @RequestParam(name = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate localDate) {
         return super.getWithMenu(id, localDate);
     }
 }

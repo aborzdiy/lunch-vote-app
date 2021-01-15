@@ -10,6 +10,8 @@ import ru.borzdiy.lunchvote.controller.AbstractController;
 import ru.borzdiy.lunchvote.model.AbstractNamedEntity;
 import ru.borzdiy.lunchvote.model.Restaurant;
 import ru.borzdiy.lunchvote.service.RestaurantService;
+import ru.borzdiy.lunchvote.to.RestaurantTo;
+import ru.borzdiy.lunchvote.util.RestarauntUtil;
 import ru.borzdiy.lunchvote.validators.UniqueRestorauntNameValidator;
 
 import java.time.LocalDate;
@@ -35,19 +37,20 @@ public class AbstractRestaurantController extends AbstractController {
         return restaurantService.getAll();
     }
 
-    protected Restaurant get(int id) {
+    protected RestaurantTo get(int id) {
         log.info("get with id={}", id);
-        return restaurantService.get(id);
+        return RestarauntUtil.asTo(restaurantService.get(id));
     }
 
-    protected Restaurant getWithMenu(int id, LocalDate localDate) {
+    protected RestaurantTo getWithMenu(int id, LocalDate localDate) {
         log.info("get with menu id={}, date={}", id, localDate);
-        return restaurantService.getWithMenu(id, localDate);
+        return RestarauntUtil.asTo(restaurantService.getWithMenu(id, localDate));
     }
 
-    public Restaurant create(Restaurant restaurant) {
-        checkNew(restaurant);
-        log.info("create from TO {}", restaurant);
+    public Restaurant create(RestaurantTo restaurantTo) {
+        checkNew(restaurantTo);
+        log.info("create from TO {}", restaurantTo);
+        Restaurant restaurant = RestarauntUtil.createNewFromTo(restaurantTo);
         return restaurantService.create(restaurant);
     }
 
@@ -56,9 +59,12 @@ public class AbstractRestaurantController extends AbstractController {
         restaurantService.delete(id);
     }
 
-    protected void update(Restaurant restaurant, int id) throws BindException{
+    protected void update(RestaurantTo restaurantTo, int id) throws BindException {
+        Restaurant restaurant = restaurantService.get(id);
+        RestarauntUtil.updateFromTo(restaurant, restaurantTo);
+
         validateBeforeUpdate(restaurant, id);
-        log.info("update {} with id={}", restaurant, id);
+        log.info("update {} with id={}", restaurantTo, id);
         restaurantService.update(restaurant);
     }
 
