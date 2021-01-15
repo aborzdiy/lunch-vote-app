@@ -9,6 +9,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.borzdiy.lunchvote.model.Restaurant;
+import ru.borzdiy.lunchvote.to.RestaurantTo;
 
 import java.net.URI;
 import java.time.LocalDate;
@@ -28,18 +29,18 @@ public class RestaurantAdminController extends AbstractRestaurantController {
     }
 
     @GetMapping("/{id}")
-    public Restaurant get(@PathVariable int id) {
+    public RestaurantTo get(@PathVariable int id) {
         return super.get(id);
     }
 
     @GetMapping("/{id}/menu")
-    public Restaurant getWithMenu(@PathVariable int id, @RequestParam(name = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate localDate) {
+    public RestaurantTo getWithMenu(@PathVariable int id, @RequestParam(name = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate localDate) {
         return super.getWithMenu(id, localDate);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Restaurant> createWithLocation(@RequestBody Restaurant restaurant) {
-        Restaurant created = super.create(restaurant);
+    public ResponseEntity<Restaurant> createWithLocation(@RequestBody RestaurantTo restaurantTo) {
+        Restaurant created = super.create(restaurantTo);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL_WITH_ID)
                 .buildAndExpand(created.getId()).toUri();
@@ -54,8 +55,8 @@ public class RestaurantAdminController extends AbstractRestaurantController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody Restaurant restaurant, @PathVariable int id) throws BindException {
-        super.update(restaurant, id);
+    public void update(@RequestBody RestaurantTo restaurantTo, @PathVariable int id) throws BindException {
+        super.update(restaurantTo, id);
     }
 
 }

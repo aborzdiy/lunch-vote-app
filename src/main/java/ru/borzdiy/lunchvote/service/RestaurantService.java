@@ -32,7 +32,7 @@ public class RestaurantService {
     }
 
     public Restaurant getWithMenu(int id, LocalDate localDate) {
-        return dataRepository.getWithMenu(id, Objects.requireNonNullElseGet(localDate, LocalDate::now));
+        return checkNotFoundWithId(dataRepository.getWithMenu(id, Objects.requireNonNullElseGet(localDate, LocalDate::now)), id);
     }
 
     @CacheEvict(value = "restaurants", allEntries = true)
