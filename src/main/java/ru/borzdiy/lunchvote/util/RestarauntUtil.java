@@ -14,8 +14,8 @@ public class RestarauntUtil {
     }
 
     public static Restaurant updateFromTo(Restaurant restaurant, RestaurantTo restaurantTo) {
-        restaurant.setName(restaurantTo.getName());
-        restaurant.setMenu(restaurantTo.getMenu());
+        restaurant.setName(restaurantTo.getName() == null ? restaurant.getName() : restaurantTo.getName());
+        restaurant.setMenu(restaurantTo.getMenu() == null ? restaurant.getMenu() : restaurantTo.getMenu());
         return restaurant;
     }
 
