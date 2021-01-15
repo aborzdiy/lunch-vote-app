@@ -31,6 +31,10 @@ public class RestaurantService {
         return checkNotFoundWithId(dataRepository.get(id), id);
     }
 
+    public Restaurant getOne(int id) {
+        return dataRepository.getOne(id);
+    }
+
     public Restaurant getWithMenu(int id, LocalDate localDate) {
         return checkNotFoundWithId(dataRepository.getWithMenu(id, Objects.requireNonNullElseGet(localDate, LocalDate::now)), id);
     }

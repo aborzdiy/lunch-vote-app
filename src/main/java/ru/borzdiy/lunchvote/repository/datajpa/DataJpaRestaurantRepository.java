@@ -6,6 +6,7 @@ import ru.borzdiy.lunchvote.repository.RestaurantRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class DataJpaRestaurantRepository implements RestaurantRepository {
@@ -29,6 +30,11 @@ public class DataJpaRestaurantRepository implements RestaurantRepository {
     @Override
     public Restaurant get(int id) {
         return restaurantRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Restaurant getOne(int id) {
+        return restaurantRepository.getOne(id);
     }
 
     @Override
