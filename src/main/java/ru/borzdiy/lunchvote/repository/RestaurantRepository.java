@@ -20,6 +20,8 @@ public interface RestaurantRepository {
 
     Restaurant getWithMenu(int id, LocalDate localDate);
 
+    Restaurant getOne(int id);
+
     List<Restaurant> getAll();
 
 }
