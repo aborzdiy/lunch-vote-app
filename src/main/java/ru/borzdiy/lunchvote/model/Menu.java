@@ -7,6 +7,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 
@@ -14,14 +15,15 @@ import java.time.LocalDate;
 @Table(name = "menus", uniqueConstraints = @UniqueConstraint(columnNames = {"MENU_DATE", "DISH", "RESTAURANT_ID"}, name = "menu_unique_idx"))
 public class Menu extends AbstractBaseEntity {
 
+    @NotNull
     @Column(name = "MENU_DATE", nullable = false)
-    LocalDate menuDate;
+    private LocalDate menuDate;
 
-    @Column(name = "DISH", nullable = false)
     @NotBlank
+    @Column(name = "DISH", nullable = false)
     private String dish;
 
-    @NotEmpty
+    @NotNull
     @Positive
     @Column(name = "PRICE", nullable = false)
     private Integer price;
@@ -33,6 +35,14 @@ public class Menu extends AbstractBaseEntity {
     private Restaurant restaurant;
 
     public Menu() {
+    }
+
+    public Menu(Menu menu) {
+        super(menu.getId());
+        this.menuDate = menu.getMenuDate();
+        this.dish = menu.getDish();
+        this.price = menu.getPrice();
+        this.restaurant = menu.getRestaurant();
     }
 
     public Menu(Integer id, LocalDate menuDate, String dish, Integer price, Restaurant restaurant) {
