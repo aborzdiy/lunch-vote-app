@@ -13,10 +13,10 @@ public class MenuUtil {
     }
 
     public static Menu updateFromTo(Menu menu, MenuTo menuTo) {
-        menu.setMenuDate(menuTo.getMenuDate());
-        menu.setDish(menuTo.getDish());
-        menu.setPrice(menuTo.getPrice());
-        menu.setRestaurant(menuTo.getRestaurant());
+        menu.setMenuDate(menuTo.getMenuDate() == null ? menu.getMenuDate() : menuTo.getMenuDate());
+        menu.setDish(menuTo.getDish() == null ? menu.getDish() : menuTo.getDish());
+        menu.setPrice(menuTo.getPrice() == null ? menu.getPrice() : menuTo.getPrice());
+        menu.setRestaurant(menuTo.getRestaurant() == null ? menu.getRestaurant() : menuTo.getRestaurant());
         return menu;
     }
 }

@@ -40,4 +40,9 @@ public class DataJpaMenuRepository implements MenuRepository {
     public List<Menu> getAll() {
         return menuRepository.findAll();
     }
+
+    @Override
+    public List<Menu> getRestaurantMenu(int restaurantId) {
+        return menuRepository.getRestaurantMenu(restaurantId);
+    }
 }
