@@ -9,12 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ru.borzdiy.lunchvote.AuthorizedUser;
-import ru.borzdiy.lunchvote.model.AbstractBaseEntity;
 import ru.borzdiy.lunchvote.model.User;
 import ru.borzdiy.lunchvote.repository.UserRepository;
 import ru.borzdiy.lunchvote.to.UserTo;
 import ru.borzdiy.lunchvote.util.UserUtil;
-import ru.borzdiy.lunchvote.util.exception.UpdateRestrictionException;
 
 import java.util.List;
 
@@ -58,8 +56,8 @@ public class UserService implements UserDetailsService {
         return repository.getAll();
     }
 
-    public User getOne(int user_id) {
-        return repository.getOne(user_id);
+    public User getOne(int userId) {
+        return repository.getOne(userId);
     }
 
     @CacheEvict(value = "users", allEntries = true)

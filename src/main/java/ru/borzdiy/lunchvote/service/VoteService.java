@@ -40,8 +40,8 @@ public class VoteService {
         return voteRepository.getOne(id);
     }
 
-    public Vote getUserVoteOnDate(int user_id, LocalDate localDate) {
-        return voteRepository.getUserVoteOnDate(user_id, localDate);
+    public Vote getUserVoteOnDate(int userId, LocalDate localDate) {
+        return voteRepository.getUserVoteOnDate(userId, localDate);
     }
 
     public List<Vote> getAll() {
@@ -52,8 +52,8 @@ public class VoteService {
         return voteRepository.getRestaurantVotes(restaurantId, date);
     }
 
-    public List<Vote> getUserVotesHistory(int user_id) {
-        return voteRepository.getUserVotesHistory(user_id);
+    public List<Vote> getUserVotesHistory(int userId) {
+        return voteRepository.getUserVotesHistory(userId);
     }
 
     public void update(Vote vote) {

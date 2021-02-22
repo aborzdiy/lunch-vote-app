@@ -2,7 +2,6 @@ package ru.borzdiy.lunchvote.controller.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.DataBinder;
 import org.springframework.validation.Validator;
@@ -146,29 +145,29 @@ public class AbstractAdminController extends AbstractBaseController {
     }
 
     protected Vote processVoteTo(VoteTo voteTo, int rId) {
-        Vote current = voteService.getUserVoteOnDate(voteTo.getUser_id(), voteTo.getVote_date());
-        User user = userRepository.getOne(voteTo.getUser_id());
+        Vote current = voteService.getUserVoteOnDate(voteTo.getUserId(), voteTo.getVoteDate());
+        User user = userRepository.getOne(voteTo.getUserId());
         Restaurant restaurant = restaurantService.getOne(rId);
 
         if (current == null) {
-            current = new Vote(null, voteTo.getVote_date(), user, restaurant);
+            current = new Vote(null, voteTo.getVoteDate(), user, restaurant);
             return voteService.create(current);
         }
 
         current.setUser(user);
         current.setRestaurant(restaurant);
-        current.setVote_date(voteTo.getVote_date());
-        current.setVoted_at(LocalDateTime.now());
+        current.setVoteDate(voteTo.getVoteDate());
+        current.setVotedAt(LocalDateTime.now());
 
         return voteService.create(current);
     }
 
     protected Vote createVote(Vote vote, int restaurantId, int userId) {
         checkNew(vote);
-        vote.setVote_date(LocalDate.now());
+        vote.setVoteDate(LocalDate.now());
         vote.setRestaurant(restaurantService.getOne(restaurantId));
         vote.setUser(userRepository.getOne(userId));
-        vote.setVoted_at(LocalDateTime.now());
+        vote.setVotedAt(LocalDateTime.now());
         log.info("create vote {} in restaurant id={}, user id={}", vote, restaurantId, userId);
         return voteService.create(vote);
     }
@@ -180,10 +179,10 @@ public class AbstractAdminController extends AbstractBaseController {
 
     protected void updateVote(VoteTo voteTo, int voteId) throws BindException {
         Vote vote = voteService.get(voteId);
-        vote.setVote_date(voteTo.getVote_date() == null ? vote.getVote_date() : voteTo.getVote_date());
-        vote.setRestaurant(voteTo.getRestaurant_id() == null ? vote.getRestaurant(): restaurantService.getOne(voteTo.getRestaurant_id()));
-        vote.setUser(voteTo.getUser_id() == null ? vote.getUser() : userRepository.getOne(voteTo.getUser_id()));
-        vote.setVoted_at(LocalDateTime.now());
+        vote.setVoteDate(voteTo.getVoteDate() == null ? vote.getVoteDate() : voteTo.getVoteDate());
+        vote.setRestaurant(voteTo.getRestaurantId() == null ? vote.getRestaurant(): restaurantService.getOne(voteTo.getRestaurantId()));
+        vote.setUser(voteTo.getUserId() == null ? vote.getUser() : userRepository.getOne(voteTo.getUserId()));
+        vote.setVotedAt(LocalDateTime.now());
         validateVoteBeforeUpdate(vote, voteId);
         log.info("update vote {} with id={}", vote, voteId);
         voteService.update(vote);

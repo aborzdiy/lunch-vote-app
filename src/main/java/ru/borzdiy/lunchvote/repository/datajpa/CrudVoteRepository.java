@@ -20,15 +20,15 @@ public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
     int delete(@Param("id") int id);
 
     @EntityGraph(attributePaths = {"restaurant"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT v FROM Vote v WHERE v.user.id=:user_id")
-    List<Vote> getUserVotesHistory(@Param("user_id") int user_id);
+    @Query("SELECT v FROM Vote v WHERE v.user.id=:userId")
+    List<Vote> getUserVotesHistory(@Param("userId") int userId);
 
     @EntityGraph(attributePaths = {"user", "restaurant"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT v FROM Vote v WHERE v.user.id=:user_id AND v.vote_date=:vote_date")
-    Vote getUserVoteOnDate(@Param("user_id") int user_id, @Param("vote_date") LocalDate localDate);
+    @Query("SELECT v FROM Vote v WHERE v.user.id=:userId AND v.voteDate=:voteDate")
+    Vote getUserVoteOnDate(@Param("userId") int userId, @Param("voteDate") LocalDate localDate);
 
     @EntityGraph(attributePaths = {"user", "restaurant"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT v FROM Vote v WHERE v.vote_date=:vote_date AND v.restaurant.id=:restaurant_id")
-    List<Vote> getRestaurantVotes(@Param("restaurant_id") int restaurantId, @Param("vote_date") LocalDate localDate);
+    @Query("SELECT v FROM Vote v WHERE v.voteDate=:voteDate AND v.restaurant.id=:restaurantId")
+    List<Vote> getRestaurantVotes(@Param("restaurantId") int restaurantId, @Param("voteDate") LocalDate localDate);
 
 }

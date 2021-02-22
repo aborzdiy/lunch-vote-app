@@ -115,7 +115,7 @@ Time is defined by default server system timezone.
 
 `curl -s -X POST -d '{"voted_at":"2021-01-15T23:38:02"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/graduation/rest/restaurants/100004/vote/ --user user@yandex.ru:password`
 
-### Ideas for further development
+### Ideas for futher development
  * Add new role - restaurant manager. Users with this role can apply changes to menu at the restaurant (which is managed)
  * Add new catalog - Dish.
  * Restrict changes in restaurant menu, if a restaurant have at least one vote at this day.

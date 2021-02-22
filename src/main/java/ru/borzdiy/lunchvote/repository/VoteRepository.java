@@ -20,12 +20,12 @@ public interface VoteRepository {
     Vote getOne(int id);
 
     // null if not found
-    Vote getUserVoteOnDate(int user_id, LocalDate localDate);
+    Vote getUserVoteOnDate(int userId, LocalDate localDate);
 
     List<Vote> getAll();
 
     List<Vote> getRestaurantVotes(int restaurantId, LocalDate date);
 
-    List<Vote> getUserVotesHistory(int user_id);
+    List<Vote> getUserVotesHistory(int userId);
 
 }

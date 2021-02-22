@@ -64,12 +64,12 @@ public class AbstractRestaurantController extends AbstractBaseController {
                 .collect(Collectors.toList());
     }
 
-    protected Vote processVote(VoteTo voteTo, int restaurant_id, int user_id) {
+    protected Vote processVote(VoteTo voteTo, int restaurantId, int userId) {
         LocalDate vote_date = LocalDate.now();
-        Restaurant restaurant = restaurantService.getOne(restaurant_id);
-        Vote current = voteService.getUserVoteOnDate(user_id, vote_date);
+        Restaurant restaurant = restaurantService.getOne(restaurantId);
+        Vote current = voteService.getUserVoteOnDate(userId, vote_date);
         if (current == null) {
-            User user = userService.getOne(user_id);
+            User user = userService.getOne(userId);
             current = new Vote(null, vote_date, user, restaurant);
             return voteService.create(current);
         }
@@ -79,7 +79,7 @@ public class AbstractRestaurantController extends AbstractBaseController {
         }
 
         current.setRestaurant(restaurant);
-        current.setVoted_at(LocalDateTime.now());
+        current.setVotedAt(LocalDateTime.now());
         return voteService.save(current);
     }
 }

@@ -41,12 +41,16 @@ public class RestaurantUserController extends AbstractRestaurantController {
     }
 
     @GetMapping(REST_WITH_ID_MENU)
-    public List<MenuTo> getRestaurantMenu(@PathVariable(RESTAURANT_ID_PARAM_NAME) int rid, @RequestParam(name = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate localDate) {
-        return super.getRestaurantMenu(rid, localDate);
+    public List<MenuTo> getRestaurantMenu(@PathVariable(RESTAURANT_ID_PARAM_NAME) int rId,
+                                          @RequestParam(name = "date")
+                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate localDate) {
+        return super.getRestaurantMenu(rId, localDate);
     }
 
     @PostMapping(value = REST_WITH_ID_VOTE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> createVoteWithLocation(@Validated @RequestBody VoteTo vote, @PathVariable(RESTAURANT_ID_PARAM_NAME) int rId, @AuthenticationPrincipal AuthorizedUser user) {
+    public ResponseEntity<Vote> createVoteWithLocation(@Validated @RequestBody VoteTo vote,
+                                                       @PathVariable(RESTAURANT_ID_PARAM_NAME) int rId,
+                                                       @AuthenticationPrincipal AuthorizedUser user) {
         Vote created = super.processVote(vote, rId, user.getId());
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_WITH_ID_VOTE + "/{vid}")

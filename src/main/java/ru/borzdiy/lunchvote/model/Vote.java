@@ -17,12 +17,12 @@ public class Vote extends AbstractBaseEntity {
     @NotNull
     @Column(name = "vote_date")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    LocalDate vote_date = LocalDate.now();
+    LocalDate voteDate = LocalDate.now();
 
     @NotNull
     @Column(name = "voted_at")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    LocalDateTime voted_at = LocalDateTime.now();
+    LocalDateTime votedAt = LocalDateTime.now();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
@@ -40,22 +40,22 @@ public class Vote extends AbstractBaseEntity {
     }
 
     public Vote(Vote vote) {
-        this(vote.getId(), vote.getVote_date(), vote.getUser(), vote.restaurant);
+        this(vote.getId(), vote.getVoteDate(), vote.getUser(), vote.restaurant);
     }
 
-    public Vote(Integer id, LocalDate vote_date, User user, Restaurant restaurant) {
+    public Vote(Integer id, LocalDate voteDate, User user, Restaurant restaurant) {
         super(id);
-        this.vote_date = vote_date;
+        this.voteDate = voteDate;
         this.user = user;
         this.restaurant = restaurant;
     }
 
-    public LocalDate getVote_date() {
-        return vote_date;
+    public LocalDate getVoteDate() {
+        return voteDate;
     }
 
-    public void setVote_date(LocalDate vote_date) {
-        this.vote_date = vote_date;
+    public void setVoteDate(LocalDate vote_date) {
+        this.voteDate = vote_date;
     }
 
     public User getUser() {
@@ -74,19 +74,19 @@ public class Vote extends AbstractBaseEntity {
         this.restaurant = restaurant;
     }
 
-    public LocalDateTime getVoted_at() {
-        return voted_at;
+    public LocalDateTime getVotedAt() {
+        return votedAt;
     }
 
-    public void setVoted_at(LocalDateTime voted_at) {
-        this.voted_at = voted_at;
+    public void setVotedAt(LocalDateTime voted_at) {
+        this.votedAt = voted_at;
     }
 
     @Override
     public String toString() {
         return "Vote{" +
                 "id=" + id +
-                ", vote_date=" + vote_date +
+                ", vote_date=" + voteDate +
                 ", user=" + user +
                 ", restaurant=" + restaurant +
                 '}';

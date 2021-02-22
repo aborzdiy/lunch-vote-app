@@ -103,7 +103,7 @@ public class AdminController extends AbstractAdminController {
         Vote proceed = super.processVoteTo(voteTo, rId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(RESTAURANTS_WITH_ID_VOTE + "/{vid}")
-                .buildAndExpand(voteTo.getRestaurant_id(), proceed.getId()).toUri();
+                .buildAndExpand(voteTo.getRestaurantId(), proceed.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(proceed);
     }
 

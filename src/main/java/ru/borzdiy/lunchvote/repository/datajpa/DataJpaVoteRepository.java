@@ -42,8 +42,8 @@ public class DataJpaVoteRepository implements VoteRepository {
     }
 
     @Override
-    public Vote getUserVoteOnDate(int user_id, LocalDate localDate) {
-        return voteRepository.getUserVoteOnDate(user_id, localDate);
+    public Vote getUserVoteOnDate(int userId, LocalDate localDate) {
+        return voteRepository.getUserVoteOnDate(userId, localDate);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class DataJpaVoteRepository implements VoteRepository {
     }
 
     @Override
-    public List<Vote> getUserVotesHistory(int user_id) {
-        return voteRepository.getUserVotesHistory(user_id);
+    public List<Vote> getUserVotesHistory(int userId) {
+        return voteRepository.getUserVotesHistory(userId);
     }
 }

@@ -7,41 +7,41 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class VoteTo extends BaseTo {
-    private LocalDate vote_date;
-    private Integer user_id;
-    private Integer restaurant_id;
-    private LocalDateTime voted_at;
+    private LocalDate voteDate;
+    private Integer userId;
+    private Integer restaurantId;
+    private LocalDateTime votedAt;
 
     public VoteTo() {
     }
 
-    public VoteTo(Integer id, LocalDate vote_date, User user, Restaurant restaurant, LocalDateTime voted_at) {
+    public VoteTo(Integer id, LocalDate voteDate, User user, Restaurant restaurant, LocalDateTime votedAt) {
         super(id);
-        this.vote_date = vote_date;
-        this.user_id = user == null ? null : user.getId();
-        this.restaurant_id = restaurant == null ? null : restaurant.getId();
-        this.voted_at = voted_at;
+        this.voteDate = voteDate;
+        this.userId = user == null ? null : user.getId();
+        this.restaurantId = restaurant == null ? null : restaurant.getId();
+        this.votedAt = votedAt;
     }
 
-    public LocalDate getVote_date() {
-        return vote_date;
+    public LocalDate getVoteDate() {
+        return voteDate;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public Integer getRestaurant_id() {
-        return restaurant_id;
+    public Integer getRestaurantId() {
+        return restaurantId;
     }
 
     @Override
     public String toString() {
         return "VoteTo{" +
                 "id=" + id +
-                ", vote_date=" + vote_date +
-                ", user_id=" + user_id +
-                ", restaurant_id=" + restaurant_id +
+                ", voteDate=" + voteDate +
+                ", userId=" + userId +
+                ", restaurantId=" + restaurantId +
                 '}';
     }
 }
